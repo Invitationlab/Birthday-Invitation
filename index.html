@@ -2,20 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viktoria's Birthday Invitation</title>
-    <!-- Importing elegant fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+
+    <title>Victoria's Birthday</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --primary-color: #ff6b6b; /* Coral/Orange from the video */
-            --bg-dark: #1a1a1a;
-            --text-light: #ffffff;
-            --gold: #ffd700;
-        }
 
         * {
             margin: 0;
@@ -23,254 +20,875 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            background: #f7f0e9;
+            color: #40362f;
+            font-family: "Montserrat", sans-serif;
+            overflow-x: hidden;
         }
 
-        /* --- Laptop / Video Call Container --- */
-        .laptop-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-            background-color: var(--bg-dark);
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            border: 8px solid #333;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        /* ================================
+           INTRO
+        ================================= */
 
-        /* --- Stage 1: Video Call Intro --- */
-        #intro-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .intro {
+            min-height: 100vh;
+            min-height: 100svh;
+
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10;
-            transition: opacity 1s ease-in-out;
+            justify-content: center;
+
             text-align: center;
-        }
 
-        .video-ui-text {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
+            position: relative;
 
-        .join-btn {
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            background-color: var(--primary-color);
+            background:
+                linear-gradient(
+                    rgba(55, 43, 35, 0.35),
+                    rgba(55, 43, 35, 0.55)
+                ),
+                url("assets/victoria.jpg") center/cover no-repeat;
+
             color: white;
-            border: none;
-            border-radius: 30px;
+        }
+
+        .intro-content {
+            padding: 30px;
+            animation: fadeUp 1.5s ease;
+        }
+
+        .intro-small {
+            font-size: 10px;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+        }
+
+        .intro h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(70px, 13vw, 150px);
+            line-height: 0.75;
+            font-weight: 500;
+        }
+
+        .intro h1 span {
+            display: block;
+            font-style: italic;
+        }
+
+        .intro-line {
+            width: 60px;
+            height: 1px;
+            background: white;
+            margin: 35px auto;
+        }
+
+        .intro-text {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .enter-button {
+            margin-top: 40px;
+
+            padding: 16px 35px;
+
+            background: transparent;
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.8);
+
+            font-size: 9px;
+            letter-spacing: 3px;
+
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            transition: transform 0.2s, background-color 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+
+            transition: 0.4s ease;
         }
 
-        .join-btn:hover {
-            transform: scale(1.05);
-            background-color: #ff5252;
+        .enter-button:hover {
+            background: white;
+            color: #40362f;
         }
 
-        /* Fake video call UI elements */
-        .call-controls {
-            position: absolute;
-            bottom: 20px;
-            display: flex;
-            gap: 15px;
-        }
-        .control-dot {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-        }
-        .control-dot.end { background: #ff4d4d; }
 
-        /* --- Stage 2: The Invitation Reveal --- */
-        #invitation-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1.5s ease-in-out;
+        /* ================================
+           INVITATION
+        ================================= */
+
+        #invitation {
+            display: none;
+        }
+
+
+        /* ================================
+           HERO
+        ================================= */
+
+        .hero {
+            min-height: 100vh;
+
             display: flex;
             flex-direction: column;
-            justify-content: center;
+
             align-items: center;
-            background-size: cover;
-            background-position: center;
+            justify-content: center;
+
             text-align: center;
-            color: var(--text-light);
+
+            padding: 80px 25px;
         }
 
-        /* Dark overlay to make text readable over the photo */
-        #invitation-screen::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1;
+        .eyebrow {
+            font-size: 9px;
+            letter-spacing: 5px;
+            color: #8a7464;
+            margin-bottom: 25px;
         }
 
-        .invite-content {
-            position: relative;
-            z-index: 2;
-            padding: 20px;
-            transform: translateY(20px);
-            transition: transform 1.5s ease-out;
+        .hero h2 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: clamp(
+                70px,
+                12vw,
+                140px
+            );
+
+            line-height: 0.75;
+
+            font-weight: 500;
         }
 
-        .invite-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-        }
-
-        .invite-details {
-            font-size: 1.5rem;
-            line-height: 1.8;
-            margin-top: 20px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-        }
-
-        .invite-details span {
+        .hero h2 span {
             display: block;
-        }
-
-        .highlight {
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        .cta-text {
-            margin-top: 30px;
-            font-size: 1.2rem;
             font-style: italic;
-            opacity: 0.9;
         }
 
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .hero-description {
+            max-width: 500px;
+
+            margin-top: 40px;
+
+            font-size: 13px;
+            line-height: 2;
+
+            color: #806c5e;
         }
 
-        .revealed .invite-content {
-            transform: translateY(0);
+
+        /* ================================
+           DATE
+        ================================= */
+
+        .date {
+            display: flex;
+            align-items: center;
+
+            margin-top: 55px;
+
+            padding: 20px 40px;
+
+            border-top: 1px solid #d9c9bc;
+            border-bottom: 1px solid #d9c9bc;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 600px) {
-            .video-ui-text { font-size: 1.8rem; }
-            .invite-content h1 { font-size: 2.2rem; }
-            .invite-details { font-size: 1.1rem; }
-            .laptop-container { width: 95%; aspect-ratio: 3 / 4; } /* Taller for mobile */
+        .date-number {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 65px;
+            line-height: 0.8;
         }
+
+        .date-info {
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        .date-info strong {
+            display: block;
+
+            font-size: 10px;
+            letter-spacing: 4px;
+        }
+
+        .date-info span {
+            display: block;
+
+            margin-top: 6px;
+
+            font-size: 10px;
+            letter-spacing: 3px;
+
+            color: #806c5e;
+        }
+
+
+        /* ================================
+           PHOTO
+        ================================= */
+
+        .photo-section {
+            padding: 120px 25px;
+
+            text-align: center;
+
+            background: #eee3d8;
+        }
+
+        .photo {
+            width: min(430px, 90vw);
+
+            margin: auto;
+
+            padding: 10px;
+
+            background: white;
+
+            box-shadow:
+                0 30px 70px rgba(70,50,40,0.18);
+        }
+
+        .photo img {
+            display: block;
+
+            width: 100%;
+
+            aspect-ratio: 4 / 5;
+
+            object-fit: cover;
+        }
+
+        .photo-caption {
+            margin-top: 35px;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 27px;
+
+            font-style: italic;
+        }
+
+
+        /* ================================
+           MESSAGE
+        ================================= */
+
+        .message {
+            max-width: 750px;
+
+            margin: auto;
+
+            padding: 140px 25px;
+
+            text-align: center;
+        }
+
+        .message h2 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: clamp(
+                55px,
+                9vw,
+                95px
+            );
+
+            line-height: 0.8;
+        }
+
+        .message h2 span {
+            display: block;
+            font-style: italic;
+        }
+
+        .message p {
+            margin-top: 45px;
+
+            font-size: 13px;
+
+            line-height: 2.2;
+
+            color: #806c5e;
+        }
+
+
+        /* ================================
+           DETAILS
+        ================================= */
+
+        .details {
+            max-width: 1050px;
+
+            margin: auto;
+
+            padding: 50px 25px 130px;
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .detail {
+            text-align: center;
+
+            padding: 50px 20px;
+
+            border-right: 1px solid #d9c9bc;
+        }
+
+        .detail:last-child {
+            border-right: none;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+
+            margin: 0 auto 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #d9c9bc;
+            border-radius: 50%;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 22px;
+        }
+
+        .detail-label {
+            font-size: 8px;
+
+            letter-spacing: 4px;
+
+            color: #806c5e;
+
+            margin-bottom: 15px;
+        }
+
+        .detail h3 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 28px;
+
+            font-weight: 500;
+
+            line-height: 1.1;
+        }
+
+
+        /* ================================
+           LOCATION
+        ================================= */
+
+        .location {
+            padding: 150px 25px;
+
+            text-align: center;
+
+            background: #eee3d8;
+        }
+
+        .location h2 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: clamp(
+                65px,
+                10vw,
+                110px
+            );
+
+            line-height: 0.75;
+
+            font-weight: 500;
+        }
+
+        .location h2 span {
+            display: block;
+            font-style: italic;
+        }
+
+        .location p {
+            margin-top: 35px;
+
+            font-size: 10px;
+
+            letter-spacing: 3px;
+
+            color: #806c5e;
+        }
+
+        .map-button {
+            display: inline-block;
+
+            margin-top: 40px;
+
+            padding: 17px 35px;
+
+            border: 1px solid #806c5e;
+
+            color: #40362f;
+
+            text-decoration: none;
+
+            font-size: 9px;
+
+            letter-spacing: 3px;
+
+            transition: 0.4s ease;
+        }
+
+        .map-button:hover {
+            background: #40362f;
+            color: white;
+        }
+
+
+        /* ================================
+           FINAL
+        ================================= */
+
+        .final {
+            min-height: 80vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 100px 25px;
+        }
+
+        .final h2 {
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: clamp(
+                70px,
+                11vw,
+                130px
+            );
+
+            line-height: 0.75;
+
+            font-weight: 500;
+        }
+
+        .final h2 span {
+            display: block;
+            font-style: italic;
+        }
+
+        .heart {
+            margin-top: 45px;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 50px;
+
+            animation: heart 2s infinite ease-in-out;
+        }
+
+        .final p {
+            margin-top: 20px;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 25px;
+
+            font-style: italic;
+
+            color: #806c5e;
+        }
+
+
+        /* ================================
+           ANIMATION
+        ================================= */
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        @keyframes heart {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+        }
+
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            .intro h1 {
+                font-size: 75px;
+            }
+
+            .hero {
+                min-height: 90vh;
+            }
+
+            .hero h2 {
+                font-size: 76px;
+            }
+
+            .details {
+                display: block;
+            }
+
+            .detail {
+                border-right: none;
+
+                border-bottom: 1px solid #d9c9bc;
+            }
+
+            .detail:last-child {
+                border-bottom: none;
+            }
+
+            .location h2 {
+                font-size: 72px;
+            }
+
+        }
+
     </style>
 </head>
+
+
 <body>
 
-    <div class="laptop-container">
-        
-        <!-- STAGE 1: Video Call Intro -->
-        <div id="intro-screen">
-            <div class="video-ui-text">Video call:<br>Join us!</div>
-            <button class="join-btn" onclick="startInvitation()">Click to Join</button>
-            
-            <div class="call-controls">
-                <div class="control-dot"></div>
-                <div class="control-dot"></div>
-                <div class="control-dot end"></div>
+
+    <!-- ==========================================
+         OPENING
+    =========================================== -->
+
+    <section class="intro" id="intro">
+
+        <div class="intro-content">
+
+            <div class="intro-small">
+                YOU ARE INVITED
             </div>
+
+            <h1>
+                Come &
+
+                <span>
+                    Join Us
+                </span>
+            </h1>
+
+            <div class="intro-line"></div>
+
+            <div class="intro-text">
+                Victoria's Birthday
+            </div>
+
+            <button
+                class="enter-button"
+                onclick="openInvitation()"
+            >
+                OPEN INVITATION
+            </button>
+
         </div>
 
-        <!-- STAGE 2: The Actual Invitation -->
-        <!-- REPLACE THE URL BELOW WITH VIKTORIA'S ACTUAL PHOTO URL -->
-        <div id="invitation-screen" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop');">
-            <div class="invite-content">
-                <h1>Viktoria's Birthday</h1>
-                <div class="invite-details">
-                    <span>• <span class="highlight">August 15, 2026</span> •</span>
-                    <span>• <span class="highlight">1:00 PM</span> •</span>
-                    <span class="highlight">Ari Nest House</span>
+    </section>
+
+
+    <!-- ==========================================
+         INVITATION
+    =========================================== -->
+
+    <main id="invitation">
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="eyebrow">
+                YOU ARE INVITED TO
+            </div>
+
+            <h2>
+                Victoria's
+
+                <span>
+                    Birthday
+                </span>
+            </h2>
+
+            <p class="hero-description">
+                Join us for a beautiful celebration
+                filled with love, laughter and
+                unforgettable memories.
+            </p>
+
+
+            <div class="date">
+
+                <div class="date-number">
+                    15
                 </div>
-                <div class="cta-text">Click to join the celebration.</div>
-            </div>
-        </div>
 
-    </div>
+                <div class="date-info">
+
+                    <strong>
+                        AUGUST
+                    </strong>
+
+                    <span>
+                        2026
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VICTORIA -->
+
+        <section class="photo-section">
+
+            <div class="photo">
+
+                <!--
+                    Put Victoria's photo here:
+
+                    assets/victoria.jpg
+                -->
+
+                <img
+                    src="assets/victoria.jpg"
+                    alt="Victoria"
+                >
+
+            </div>
+
+            <div class="photo-caption">
+                Our beautiful Victoria
+            </div>
+
+        </section>
+
+
+        <!-- MESSAGE -->
+
+        <section class="message">
+
+            <div class="eyebrow">
+                SAVE THE DATE
+            </div>
+
+            <h2>
+                Let's celebrate
+
+                <span>
+                    together
+                </span>
+            </h2>
+
+            <p>
+                We would love to have you with us
+                as we celebrate Victoria's special day.
+                Come share this beautiful moment with us
+                and make wonderful memories together.
+            </p>
+
+        </section>
+
+
+        <!-- DETAILS -->
+
+        <section class="details">
+
+
+            <div class="detail">
+
+                <div class="icon">
+                    ✦
+                </div>
+
+                <div class="detail-label">
+                    DATE
+                </div>
+
+                <h3>
+                    15 August<br>
+                    2026
+                </h3>
+
+            </div>
+
+
+            <div class="detail">
+
+                <div class="icon">
+                    ♡
+                </div>
+
+                <div class="detail-label">
+                    TIME
+                </div>
+
+                <h3>
+                    13:00
+                </h3>
+
+            </div>
+
+
+            <div class="detail">
+
+                <div class="icon">
+                    ⌖
+                </div>
+
+                <div class="detail-label">
+                    PLACE
+                </div>
+
+                <h3>
+                    Ari Nest<br>
+                    House
+                </h3>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- LOCATION -->
+
+        <section class="location">
+
+            <div class="eyebrow">
+                OUR CELEBRATION
+            </div>
+
+            <h2>
+                Ari Nest
+
+                <span>
+                    House
+                </span>
+            </h2>
+
+            <p>
+                15 AUGUST 2026 · 13:00
+            </p>
+
+            <a
+                class="map-button"
+                href="https://www.google.com/maps/search/?api=1&query=Ari+Nest+House"
+                target="_blank"
+            >
+                VIEW LOCATION
+            </a>
+
+        </section>
+
+
+        <!-- FINAL -->
+
+        <section class="final">
+
+            <div>
+
+                <div class="eyebrow">
+                    WITH LOVE
+                </div>
+
+                <h2>
+                    See you
+
+                    <span>
+                        there!
+                    </span>
+                </h2>
+
+                <div class="heart">
+                    ♡
+                </div>
+
+                <p>
+                    Victoria's Birthday
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
 
     <script>
-        function startInvitation() {
-            const introScreen = document.getElementById('intro-screen');
-            const inviteScreen = document.getElementById('invitation-screen');
 
-            // 1. Fade out the intro screen
-            introScreen.style.opacity = '0';
-            
-            // 2. Wait for fade out, then hide intro and show invitation
-            setTimeout(() => {
-                introScreen.style.display = 'none';
-                inviteScreen.style.visibility = 'visible';
-                
-                // Trigger reflow to ensure transition works
-                void inviteScreen.offsetWidth; 
-                
-                inviteScreen.style.opacity = '1';
-                inviteScreen.classList.add('revealed');
+        function openInvitation() {
 
-                // 3. Fire Confetti!
-                fireConfetti();
-            }, 1000); // 1 second matches the CSS transition
+            const intro =
+                document.getElementById("intro");
+
+            const invitation =
+                document.getElementById("invitation");
+
+
+            intro.style.transition =
+                "opacity 1s ease";
+
+            intro.style.opacity = "0";
+
+
+            setTimeout(function () {
+
+                intro.style.display = "none";
+
+                invitation.style.display = "block";
+
+                window.scrollTo(0, 0);
+
+            }, 1000);
+
         }
 
-        function fireConfetti() {
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                var particleCount = 50 * (timeLeft / duration);
-                
-                // Shoot confetti from left and right sides like in the image
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.1, y: 0.5 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.9, y: 0.5 } }));
-            }, 250);
-        }
     </script>
+
+
 </body>
 </html>
