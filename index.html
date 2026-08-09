@@ -2,17 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Victoria's Birthday</title>
-
+    <title>Victoria's Ariel Pool Party</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            /* Pink & Ariel Theme Palette */
+            --bg-color: #fff0f5; /* Lavender Blush / Soft Pink */
+            --text-main: #4a3b42; /* Dark Mauve */
+            --text-light: #8c7b82; /* Muted Mauve */
+            --accent-pink: #d68ba6; /* Dusty Rose */
+            --accent-gold: #cba358; /* Soft Gold */
+            --white: #ffffff;
+            --overlay: rgba(74, 59, 66, 0.4);
+        }
 
         * {
             margin: 0;
@@ -25,864 +33,735 @@
         }
 
         body {
-            background: #f7f0e9;
-            color: #40362f;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             font-family: "Montserrat", sans-serif;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         /* ================================
-           INTRO
+           UTILITIES & ANIMATIONS
         ================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.5, 0, 0, 1);
+        }
 
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating Bubbles Background */
+        .bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(214, 139, 166, 0.2));
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: rise 15s infinite ease-in;
+        }
+
+        @keyframes rise {
+            0% { bottom: -100px; transform: translateX(0); }
+            50% { transform: translateX(50px); }
+            100% { bottom: 110vh; transform: translateX(-50px); opacity: 0; }
+        }
+
+        /* ================================
+           INTRO (VIDEO)
+        ================================= */
         .intro {
-            min-height: 100vh;
-            min-height: 100svh;
-
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: center;
-
             text-align: center;
+            background: #000;
+            transition: opacity 1s ease, visibility 1s;
+        }
 
+        .intro-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .intro-overlay {
             position: relative;
-
-            background:
-                linear-gradient(
-                    rgba(55, 43, 35, 0.35),
-                    rgba(55, 43, 35, 0.55)
-                ),
-                url("assets/victoria.jpg") center/cover no-repeat;
-
-            color: white;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .intro-content {
-            padding: 30px;
-            animation: fadeUp 1.5s ease;
+            color: var(--white);
+            animation: fadeIn 2s ease;
         }
 
         .intro-small {
-            font-size: 10px;
-            letter-spacing: 5px;
-            margin-bottom: 30px;
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #ffdde1;
         }
 
         .intro h1 {
             font-family: "Cormorant Garamond", serif;
-            font-size: clamp(70px, 13vw, 150px);
-            line-height: 0.75;
-            font-weight: 500;
+            font-size: clamp(60px, 12vw, 140px);
+            line-height: 0.9;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .intro h1 span {
             display: block;
             font-style: italic;
+            color: #ffb7c5; /* Light Pink */
         }
 
         .intro-line {
             width: 60px;
             height: 1px;
-            background: white;
-            margin: 35px auto;
-        }
-
-        .intro-text {
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            background: rgba(255,255,255,0.6);
+            margin: 30px auto;
         }
 
         .enter-button {
-            margin-top: 40px;
-
-            padding: 16px 35px;
-
+            margin-top: 30px;
+            padding: 18px 45px;
             background: transparent;
-            color: white;
-
-            border: 1px solid rgba(255,255,255,0.8);
-
-            font-size: 9px;
-            letter-spacing: 3px;
-
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.6);
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
             cursor: pointer;
-
-            transition: 0.4s ease;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
         }
 
         .enter-button:hover {
-            background: white;
-            color: #40362f;
+            background: var(--white);
+            color: var(--text-main);
+            border-color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-
         /* ================================
-           INVITATION
+           MAIN CONTENT
         ================================= */
-
         #invitation {
             display: none;
+            opacity: 0;
+            transition: opacity 1.5s ease;
         }
 
-
-        /* ================================
-           HERO
-        ================================= */
-
+        /* HERO */
         .hero {
             min-height: 100vh;
-
             display: flex;
             flex-direction: column;
-
             align-items: center;
             justify-content: center;
-
             text-align: center;
-
-            padding: 80px 25px;
+            padding: 100px 25px;
+            position: relative;
         }
 
         .eyebrow {
-            font-size: 9px;
+            font-size: 10px;
             letter-spacing: 5px;
-            color: #8a7464;
+            color: var(--accent-pink);
             margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: 500;
         }
 
         .hero h2 {
             font-family: "Cormorant Garamond", serif;
-
-            font-size: clamp(
-                70px,
-                12vw,
-                140px
-            );
-
-            line-height: 0.75;
-
-            font-weight: 500;
+            font-size: clamp(60px, 11vw, 130px);
+            line-height: 0.85;
+            font-weight: 400;
+            color: var(--text-main);
         }
 
         .hero h2 span {
             display: block;
             font-style: italic;
+            color: var(--accent-pink);
         }
 
         .hero-description {
-            max-width: 500px;
-
+            max-width: 550px;
             margin-top: 40px;
-
-            font-size: 13px;
+            font-size: 14px;
             line-height: 2;
-
-            color: #806c5e;
+            color: var(--text-light);
         }
 
-
-        /* ================================
-           DATE
-        ================================= */
-
-        .date {
-            display: flex;
+        .date-badge {
+            display: inline-flex;
             align-items: center;
-
-            margin-top: 55px;
-
-            padding: 20px 40px;
-
-            border-top: 1px solid #d9c9bc;
-            border-bottom: 1px solid #d9c9bc;
+            margin-top: 60px;
+            padding: 25px 50px;
+            border: 1px solid rgba(214, 139, 166, 0.3);
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
         }
 
         .date-number {
             font-family: "Cormorant Garamond", serif;
-            font-size: 65px;
+            font-size: 70px;
             line-height: 0.8;
+            color: var(--accent-pink);
+            margin-right: 20px;
         }
 
         .date-info {
-            margin-left: 20px;
             text-align: left;
         }
 
         .date-info strong {
             display: block;
-
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: 4px;
+            color: var(--text-main);
         }
 
         .date-info span {
             display: block;
-
-            margin-top: 6px;
-
-            font-size: 10px;
-            letter-spacing: 3px;
-
-            color: #806c5e;
+            margin-top: 5px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-light);
         }
 
-
-        /* ================================
-           PHOTO
-        ================================= */
-
+        /* PHOTO SECTION */
         .photo-section {
             padding: 120px 25px;
-
             text-align: center;
-
-            background: #eee3d8;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4));
         }
 
-        .photo {
-            width: min(430px, 90vw);
-
+        .photo-frame {
+            width: min(450px, 90vw);
             margin: auto;
-
-            padding: 10px;
-
-            background: white;
-
-            box-shadow:
-                0 30px 70px rgba(70,50,40,0.18);
+            padding: 15px;
+            background: var(--white);
+            box-shadow: 0 30px 60px rgba(214, 139, 166, 0.15);
+            border-radius: 4px;
+            position: relative;
         }
+        
+        /* Decorative corner accents */
+        .photo-frame::before, .photo-frame::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-pink);
+            transition: all 0.5s ease;
+        }
+        .photo-frame::before { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+        .photo-frame::after { bottom: -10px; right: -10px; border-left: none; border-top: none; }
 
-        .photo img {
+        .photo-frame img {
             display: block;
-
             width: 100%;
-
             aspect-ratio: 4 / 5;
-
             object-fit: cover;
+            filter: sepia(0.1) contrast(1.05);
         }
 
         .photo-caption {
-            margin-top: 35px;
-
+            margin-top: 40px;
             font-family: "Cormorant Garamond", serif;
-
-            font-size: 27px;
-
+            font-size: 28px;
             font-style: italic;
+            color: var(--text-main);
         }
 
-
-        /* ================================
-           MESSAGE
-        ================================= */
-
+        /* MESSAGE */
         .message {
             max-width: 750px;
-
             margin: auto;
-
             padding: 140px 25px;
-
             text-align: center;
         }
 
         .message h2 {
             font-family: "Cormorant Garamond", serif;
-
-            font-size: clamp(
-                55px,
-                9vw,
-                95px
-            );
-
-            line-height: 0.8;
+            font-size: clamp(50px, 8vw, 90px);
+            line-height: 0.9;
+            margin-bottom: 30px;
         }
-
+        
         .message h2 span {
             display: block;
             font-style: italic;
+            color: var(--accent-pink);
         }
 
         .message p {
-            margin-top: 45px;
-
-            font-size: 13px;
-
+            font-size: 15px;
             line-height: 2.2;
-
-            color: #806c5e;
+            color: var(--text-light);
         }
 
-
-        /* ================================
-           DETAILS
-        ================================= */
-
+        /* DETAILS GRID */
         .details {
-            max-width: 1050px;
-
+            max-width: 1100px;
             margin: auto;
-
-            padding: 50px 25px 130px;
-
+            padding: 80px 25px 130px;
             display: grid;
-
             grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
         }
 
-        .detail {
+        .detail-card {
             text-align: center;
-
-            padding: 50px 20px;
-
-            border-right: 1px solid #d9c9bc;
+            padding: 60px 30px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+            transition: transform 0.4s ease;
         }
 
-        .detail:last-child {
-            border-right: none;
+        .detail-card:hover {
+            transform: translateY(-10px);
         }
 
         .icon {
-            width: 50px;
-            height: 50px;
-
+            width: 60px;
+            height: 60px;
             margin: 0 auto 25px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border: 1px solid #d9c9bc;
+            border: 1px solid var(--accent-pink);
             border-radius: 50%;
-
             font-family: "Cormorant Garamond", serif;
-
-            font-size: 22px;
+            font-size: 24px;
+            color: var(--accent-pink);
         }
 
         .detail-label {
-            font-size: 8px;
-
+            font-size: 9px;
             letter-spacing: 4px;
-
-            color: #806c5e;
-
+            color: var(--text-light);
             margin-bottom: 15px;
+            text-transform: uppercase;
         }
 
         .detail h3 {
             font-family: "Cormorant Garamond", serif;
-
-            font-size: 28px;
-
+            font-size: 32px;
             font-weight: 500;
-
-            line-height: 1.1;
+            line-height: 1.2;
+            color: var(--text-main);
         }
 
-
-        /* ================================
-           LOCATION
-        ================================= */
-
+        /* LOCATION */
         .location {
             padding: 150px 25px;
-
             text-align: center;
-
-            background: #eee3d8;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .location::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(214, 139, 166, 0.05) 0%, transparent 70%);
         }
 
         .location h2 {
             font-family: "Cormorant Garamond", serif;
-
-            font-size: clamp(
-                65px,
-                10vw,
-                110px
-            );
-
-            line-height: 0.75;
-
-            font-weight: 500;
+            font-size: clamp(60px, 9vw, 110px);
+            line-height: 0.85;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
         }
 
         .location h2 span {
             display: block;
             font-style: italic;
+            color: var(--accent-pink);
         }
 
         .location p {
             margin-top: 35px;
-
-            font-size: 10px;
-
+            font-size: 11px;
             letter-spacing: 3px;
-
-            color: #806c5e;
+            color: var(--text-light);
+            position: relative;
+            z-index: 2;
         }
 
         .map-button {
             display: inline-block;
-
-            margin-top: 40px;
-
-            padding: 17px 35px;
-
-            border: 1px solid #806c5e;
-
-            color: #40362f;
-
+            margin-top: 45px;
+            padding: 18px 45px;
+            border: 1px solid var(--accent-pink);
+            color: var(--accent-pink);
             text-decoration: none;
-
-            font-size: 9px;
-
+            font-size: 10px;
             letter-spacing: 3px;
-
-            transition: 0.4s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
         }
 
         .map-button:hover {
-            background: #40362f;
-            color: white;
+            background: var(--accent-pink);
+            color: var(--white);
+            box-shadow: 0 10px 20px rgba(214, 139, 166, 0.3);
         }
 
-
-        /* ================================
-           FINAL
-        ================================= */
-
+        /* FINAL */
         .final {
             min-height: 80vh;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             text-align: center;
-
             padding: 100px 25px;
+            background: var(--bg-color);
         }
 
         .final h2 {
             font-family: "Cormorant Garamond", serif;
-
-            font-size: clamp(
-                70px,
-                11vw,
-                130px
-            );
-
-            line-height: 0.75;
-
-            font-weight: 500;
+            font-size: clamp(60px, 10vw, 120px);
+            line-height: 0.85;
+            font-weight: 400;
         }
 
         .final h2 span {
             display: block;
             font-style: italic;
+            color: var(--accent-pink);
         }
 
         .heart {
-            margin-top: 45px;
-
-            font-family: "Cormorant Garamond", serif;
-
-            font-size: 50px;
-
-            animation: heart 2s infinite ease-in-out;
+            margin: 50px auto;
+            font-size: 40px;
+            color: var(--accent-pink);
+            animation: heartbeat 2s infinite ease-in-out;
         }
 
         .final p {
-            margin-top: 20px;
-
             font-family: "Cormorant Garamond", serif;
-
-            font-size: 25px;
-
+            font-size: 22px;
             font-style: italic;
-
-            color: #806c5e;
+            color: var(--text-light);
         }
-
 
         /* ================================
-           ANIMATION
+           KEYFRAMES
         ================================= */
-
-        @keyframes fadeUp {
-
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        @keyframes heart {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.15);
-            }
-
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
-
 
         /* ================================
-           MOBILE
+           MOBILE RESPONSIVE
         ================================= */
-
-        @media (max-width: 700px) {
-
-            .intro h1 {
-                font-size: 75px;
-            }
-
-            .hero {
-                min-height: 90vh;
-            }
-
-            .hero h2 {
-                font-size: 76px;
-            }
-
+        @media (max-width: 768px) {
             .details {
-                display: block;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .detail-card {
+                padding: 40px 20px;
             }
 
-            .detail {
-                border-right: none;
-
-                border-bottom: 1px solid #d9c9bc;
+            .date-badge {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px;
             }
 
-            .detail:last-child {
-                border-bottom: none;
+            .date-number {
+                margin-right: 0;
+                margin-bottom: 10px;
             }
-
-            .location h2 {
-                font-size: 72px;
+            
+            .date-info {
+                text-align: center;
             }
-
         }
-
     </style>
 </head>
-
-
 <body>
 
+    <!-- Background Bubbles -->
+    <div class="bubbles" id="bubbles-container"></div>
 
     <!-- ==========================================
-         OPENING
+         INTRO VIDEO SECTION
     =========================================== -->
-
     <section class="intro" id="intro">
+        <!-- 
+            IMPORTANT: 
+            Make sure your video file is named 'come-and-join-us.mp4' 
+            and is inside an 'assets' folder.
+        -->
+        <video class="intro-video" autoplay muted loop playsinline>
+            <source src="assets/come-and-join-us.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
 
-        <div class="intro-content">
-
-            <div class="intro-small">
-                YOU ARE INVITED
+        <div class="intro-overlay">
+            <div class="intro-content">
+                <div class="intro-small">You Are Invited</div>
+                <h1>
+                    Come &
+                    <span>Join Us</span>
+                </h1>
+                <div class="intro-line"></div>
+                <div class="intro-text" style="font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px;">
+                    Victoria's Ariel Pool Party
+                </div>
+                <button class="enter-button" onclick="openInvitation()">
+                    Open Invitation
+                </button>
             </div>
-
-            <h1>
-                Come &
-
-                <span>
-                    Join Us
-                </span>
-            </h1>
-
-            <div class="intro-line"></div>
-
-            <div class="intro-text">
-                Victoria's Birthday
-            </div>
-
-            <button
-                class="enter-button"
-                onclick="openInvitation()"
-            >
-                OPEN INVITATION
-            </button>
-
         </div>
-
     </section>
 
-
     <!-- ==========================================
-         INVITATION
+         MAIN INVITATION
     =========================================== -->
-
     <main id="invitation">
 
-
         <!-- HERO -->
-
         <section class="hero">
-
-            <div class="eyebrow">
-                YOU ARE INVITED TO
-            </div>
-
-            <h2>
-                Victoria's
-
-                <span>
-                    Birthday
-                </span>
-            </h2>
-
-            <p class="hero-description">
-                Join us for a beautiful celebration
-                filled with love, laughter and
-                unforgettable memories.
-            </p>
-
-
-            <div class="date">
-
-                <div class="date-number">
-                    15
-                </div>
-
-                <div class="date-info">
-
-                    <strong>
-                        AUGUST
-                    </strong>
-
-                    <span>
-                        2026
-                    </span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- VICTORIA -->
-
-        <section class="photo-section">
-
-            <div class="photo">
-
-                <!--
-                    Put Victoria's photo here:
-
-                    assets/vika.jpg
-                -->
-
-                <img
-                    src="assets/vika.jpg"
-                    alt="Victoria"
-                >
-
-        </section>
-
-
-        <!-- MESSAGE -->
-
-        <section class="message">
-
-            <div class="eyebrow">
-                SAVE THE DATE
-            </div>
-
-            <h2>
-                Let's celebrate
-
-                <span>
-                    together
-                </span>
-            </h2>
-
-            <p>
-                We would love to have you with us
-                as we celebrate Victoria's special day.
-                Come share this beautiful moment with us
-                and make wonderful memories together.
-            </p>
-
-        </section>
-
-
-        <!-- DETAILS -->
-
-        <section class="details">
-
-
-            <div class="detail">
-
-                <div class="icon">
-                    ✦
-                </div>
-
-                <div class="detail-label">
-                    DATE
-                </div>
-
-                <h3>
-                    15 August<br>
-                    2026
-                </h3>
-
-            </div>
-
-
-            <div class="detail">
-
-                <div class="icon">
-                    ♡
-                </div>
-
-                <div class="detail-label">
-                    TIME
-                </div>
-
-                <h3>
-                    13:00
-                </h3>
-
-            </div>
-
-
-            <div class="detail">
-
-                <div class="icon">
-                    ⌖
-                </div>
-
-                <div class="detail-label">
-                    PLACE
-                </div>
-
-                <h3>
-                    Ari Nest<br>
-                    House
-                </h3>
-
-            </div>
-
-
-        </section>
-
-
-        <!-- LOCATION -->
-
-        <section class="location">
-
-            <div class="eyebrow">
-                OUR CELEBRATION
-            </div>
-
-            <h2>
-                Ari Nest
-
-                <span>
-                    House
-                </span>
-            </h2>
-
-            <p>
-                15 AUGUST 2026 · 13:00
-            </p>
-
-            <a
-                class="map-button"
-                href="https://www.google.com/maps/search/?api=1&query=Ari+Nest+House"
-                target="_blank"
-            >
-                VIEW LOCATION
-            </a>
-
-        </section>
-
-
-        <!-- FINAL -->
-
-        <section class="final">
-
-            <div>
-
-                <div class="eyebrow">
-                    WITH LOVE
-                </div>
-
+            <div class="reveal">
+                <div class="eyebrow">You Are Invited To</div>
                 <h2>
-                    See you
-
-                    <span>
-                        there!
-                    </span>
+                    Victoria's
+                    <span>Ariel Party</span>
                 </h2>
-
-                <div class="heart">
-                    ♡
-                </div>
-
-                <p>
-                    Victoria's Birthday
+                <p class="hero-description">
+                    Dive into a magical celebration under the sea. 
+                    Join us for a sparkling pool party filled with love, 
+                    laughter, and unforgettable memories.
                 </p>
 
+                <div class="date-badge">
+                    <div class="date-number">15</div>
+                    <div class="date-info">
+                        <strong>AUGUST</strong>
+                        <span>2026</span>
+                    </div>
+                </div>
             </div>
-
         </section>
 
+        <!-- VICTORIA PHOTO -->
+        <section class="photo-section">
+            <div class="reveal">
+                <div class="photo-frame">
+                    <!-- 
+                        IMPORTANT: 
+                        Make sure your image is named 'victoria.jpg' 
+                        and is inside an 'assets' folder.
+                    -->
+                    <img src="assets/victoria.jpg" alt="Victoria">
+                </div>
+                <div class="photo-caption">Our Beautiful Victoria</div>
+            </div>
+        </section>
+
+        <!-- MESSAGE -->
+        <section class="message">
+            <div class="reveal">
+                <div class="eyebrow">Save The Date</div>
+                <h2>
+                    Let's celebrate
+                    <span>together</span>
+                </h2>
+                <p>
+                    We would love to have you with us as we celebrate Victoria's special day 
+                    with an Ariel-themed pool party. Come share this beautiful moment with us, 
+                    bring your swimsuit, and let's make waves together!
+                </p>
+            </div>
+        </section>
+
+        <!-- DETAILS -->
+        <section class="details">
+            <div class="detail-card reveal">
+                <div class="icon">✦</div>
+                <div class="detail-label">Date</div>
+                <h3>15 August<br>2026</h3>
+            </div>
+
+            <div class="detail-card reveal" style="transition-delay: 0.2s;">
+                <div class="icon">♡</div>
+                <div class="detail-label">Time</div>
+                <h3>13:00</h3>
+            </div>
+
+            <div class="detail-card reveal" style="transition-delay: 0.4s;">
+                <div class="icon">⌖</div>
+                <div class="detail-label">Place</div>
+                <h3>Ari Nest<br>House</h3>
+            </div>
+        </section>
+
+        <!-- LOCATION -->
+        <section class="location">
+            <div class="reveal">
+                <div class="eyebrow">Our Celebration</div>
+                <h2>
+                    Ari Nest
+                    <span>House</span>
+                </h2>
+                <p>15 AUGUST 2026 · 13:00</p>
+                <a class="map-button" href="https://www.google.com/maps/search/?api=1&query=Ari+Nest+House" target="_blank">
+                    View Location
+                </a>
+            </div>
+        </section>
+
+        <!-- FINAL -->
+        <section class="final">
+            <div class="reveal">
+                <div class="eyebrow">With Love</div>
+                <h2>
+                    See you
+                    <span>there!</span>
+                </h2>
+                <div class="heart">♡</div>
+                <p>Victoria's Birthday</p>
+            </div>
+        </section>
 
     </main>
-
 
     <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
-
     <script>
-
+        // 1. Handle Intro Video Transition
         function openInvitation() {
+            const intro = document.getElementById("intro");
+            const invitation = document.getElementById("invitation");
 
-            const intro =
-                document.getElementById("intro");
-
-            const invitation =
-                document.getElementById("invitation");
-
-
-            intro.style.transition =
-                "opacity 1s ease";
-
+            // Fade out intro
             intro.style.opacity = "0";
-
+            intro.style.visibility = "hidden";
 
             setTimeout(function () {
-
                 intro.style.display = "none";
-
                 invitation.style.display = "block";
-
+                
+                // Trigger reflow
+                void invitation.offsetWidth;
+                
+                // Fade in invitation
+                invitation.style.opacity = "1";
                 window.scrollTo(0, 0);
-
+                
+                // Initialize scroll animations
+                initScrollAnimations();
             }, 1000);
-
         }
 
+        // 2. Scroll Animations (Intersection Observer)
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll(".reveal").forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // 3. Generate Floating Bubbles
+        function createBubbles() {
+            const container = document.getElementById('bubbles-container');
+            const bubbleCount = 15;
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Random size
+                const size = Math.random() * 60 + 20 + 'px';
+                bubble.style.width = size;
+                bubble.style.height = size;
+                
+                // Random position
+                bubble.style.left = Math.random() * 100 + '%';
+                
+                // Random animation duration and delay
+                bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
+                bubble.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(bubble);
+            }
+        }
+
+        // Initialize bubbles on load
+        window.addEventListener('DOMContentLoaded', createBubbles);
+
     </script>
-
-
 </body>
 </html>
