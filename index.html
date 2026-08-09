@@ -1,1 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viktoria's Birthday Invitation</title>
+    <!-- Importing elegant fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #ff6b6b; /* Coral/Orange from the video */
+            --bg-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --gold: #ffd700;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- Laptop / Video Call Container --- */
+        .laptop-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            background-color: var(--bg-dark);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 8px solid #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Stage 1: Video Call Intro --- */
+        #intro-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            transition: opacity 1s ease-in-out;
+            text-align: center;
+        }
+
+        .video-ui-text {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .join-btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .join-btn:hover {
+            transform: scale(1.05);
+            background-color: #ff5252;
+        }
+
+        /* Fake video call UI elements */
+        .call-controls {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        .control-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+        .control-dot.end { background: #ff4d4d; }
+
+        /* --- Stage 2: The Invitation Reveal --- */
+        #invitation-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* Dark overlay to make text readable over the photo */
+        #invitation-screen::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .invite-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            transform: translateY(20px);
+            transition: transform 1.5s ease-out;
+        }
+
+        .invite-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .invite-details {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-top: 20px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .invite-details span {
+            display: block;
+        }
+
+        .highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .cta-text {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .revealed .invite-content {
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .video-ui-text { font-size: 1.8rem; }
+            .invite-content h1 { font-size: 2.2rem; }
+            .invite-details { font-size: 1.1rem; }
+            .laptop-container { width: 95%; aspect-ratio: 3 / 4; } /* Taller for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="laptop-container">
+        
+        <!-- STAGE 1: Video Call Intro -->
+        <div id="intro-screen">
+            <div class="video-ui-text">Video call:<br>Join us!</div>
+            <button class="join-btn" onclick="startInvitation()">Click to Join</button>
+            
+            <div class="call-controls">
+                <div class="control-dot"></div>
+                <div class="control-dot"></div>
+                <div class="control-dot end"></div>
+            </div>
+        </div>
+
+        <!-- STAGE 2: The Actual Invitation -->
+        <!-- REPLACE THE URL BELOW WITH VIKTORIA'S ACTUAL PHOTO URL -->
+        <div id="invitation-screen" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop');">
+            <div class="invite-content">
+                <h1>Viktoria's Birthday</h1>
+                <div class="invite-details">
+                    <span>• <span class="highlight">August 15, 2026</span> •</span>
+                    <span>• <span class="highlight">1:00 PM</span> •</span>
+                    <span class="highlight">Ari Nest House</span>
+                </div>
+                <div class="cta-text">Click to join the celebration.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function startInvitation() {
+            const introScreen = document.getElementById('intro-screen');
+            const inviteScreen = document.getElementById('invitation-screen');
+
+            // 1. Fade out the intro screen
+            introScreen.style.opacity = '0';
+            
+            // 2. Wait for fade out, then hide intro and show invitation
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                inviteScreen.style.visibility = 'visible';
+                
+                // Trigger reflow to ensure transition works
+                void inviteScreen.offsetWidth; 
+                
+                inviteScreen.style.opacity = '1';
+                inviteScreen.classList.add('revealed');
+
+                // 3. Fire Confetti!
+                fireConfetti();
+            }, 1000); // 1 second matches the CSS transition
+        }
+
+        function fireConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                
+                // Shoot confetti from left and right sides like in the image
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.1, y: 0.5 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.9, y: 0.5 } }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
