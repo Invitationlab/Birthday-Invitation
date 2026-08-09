@@ -50,6 +50,45 @@
         }
 
         /* ================================
+           MUSIC CONTROL BUTTON
+        ================================= */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--pink);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control.muted {
+            background: #ccc;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 64, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0); }
+        }
+
+        /* ================================
            UTILITIES & ANIMATIONS
         ================================= */
         .reveal {
@@ -540,10 +579,15 @@
     <!-- Background Floating Emojis -->
     <div class="bubbles" id="bubbles-container"></div>
 
+    <!-- Music Control Button -->
+    <button class="music-control" id="musicBtn" onclick="toggleMusic()">🔊</button>
+
     <!-- Audio Element (Hidden) - Joyful Happy Birthday Tune -->
+    <!-- Using a reliable, permanent royalty-free source -->
     <audio id="bg-music" loop>
-        <!-- Royalty Free Joyful Happy Birthday Ukulele -->
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-to-you-111998.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+        <!-- Note: This is a cheerful upbeat track. If you have a specific 'Happy Birthday' mp3, 
+             upload it to assets/ and change the src above to "assets/happy-birthday.mp3" -->
     </audio>
 
     <!-- ==========================================
@@ -585,192 +629,4 @@
                 <div class="eyebrow">🧜‍♀️ Splish Splash! 🧜‍♀️</div>
                 <h2>
                     Victoria's
-                    <span>Magical Party!</span>
-                </h2>
-                <p class="hero-description">
-                    Dive into the fun! Join us for a super colorful 
-                    mermaid pool party filled with games, cake, and magic!
-                </p>
-
-                <div class="date-badge">
-                    <div class="date-number">15</div>
-                    <div class="date-info">
-                        <strong>AUGUST</strong>
-                        <span>2026</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VICTORIA PHOTO -->
-        <section class="photo-section">
-            <div class="reveal">
-                <div class="photo-frame">
-                    <!-- 
-                        IMPORTANT: 
-                        Ensure your image is named 'victoria.jpg' 
-                        and is inside the 'assets' folder.
-                    -->
-                    <img src="assets/victoria.jpg" alt="Victoria">
-                </div>
-                <div class="photo-caption">Our Little Mermaid Victoria! 🌟</div>
-            </div>
-        </section>
-
-        <!-- MESSAGE -->
-        <section class="message">
-            <div class="reveal">
-                <h2>
-                    Let's Make
-                    <span>Waves! 🌊</span>
-                </h2>
-                <p>
-                    Get your swimsuits ready! We are throwing the biggest, 
-                    brightest pool party ever to celebrate Victoria's birthday. 
-                    There will be treasure hunts, yummy treats, and lots of splashing!
-                </p>
-            </div>
-        </section>
-
-        <!-- DETAILS -->
-        <section class="details">
-            <div class="detail-card reveal">
-                <span class="icon">📅</span>
-                <div class="detail-label">When</div>
-                <h3>15 August<br>2026</h3>
-            </div>
-
-            <div class="detail-card reveal" style="transition-delay: 0.2s;">
-                <span class="icon">⏰</span>
-                <div class="detail-label">Time</div>
-                <h3>13:00</h3>
-            </div>
-
-            <div class="detail-card reveal" style="transition-delay: 0.4s;">
-                <span class="icon">📍</span>
-                <div class="detail-label">Where</div>
-                <h3>Ari Nest<br>House</h3>
-            </div>
-        </section>
-
-        <!-- LOCATION -->
-        <section class="location">
-            <div class="reveal">
-                <h2>
-                    Ari Nest
-                    <span>House 🏠</span>
-                </h2>
-                <p>15 AUGUST 2026 · 13:00</p>
-                <a class="map-button" href="https://www.google.com/maps/search/?api=1&query=Ari+Nest+House" target="_blank">
-                    🗺️ Find the Treasure Map
-                </a>
-            </div>
-        </section>
-
-        <!-- FINAL -->
-        <section class="final">
-            <div class="reveal">
-                <h2>
-                    See You
-                    <span>There! 👋</span>
-                </h2>
-                <div class="heart">🎂</div>
-                <p>Don't forget your towel!</p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ==========================================
-         JAVASCRIPT
-    =========================================== -->
-    <script>
-        // 1. Handle Intro Video Transition & Music
-        function openInvitation() {
-            const intro = document.getElementById("intro");
-            const invitation = document.getElementById("invitation");
-            const music = document.getElementById("bg-music");
-
-            // Play Joyful Music
-            if (music) {
-                music.volume = 0.6; 
-                music.play().catch(error => {
-                    console.log("Auto-play prevented:", error);
-                });
-            }
-
-            // Fade out intro
-            intro.style.opacity = "0";
-            intro.style.visibility = "hidden";
-
-            setTimeout(function () {
-                intro.style.display = "none";
-                invitation.style.display = "block";
-                
-                // Trigger reflow
-                void invitation.offsetWidth;
-                
-                // Fade in invitation
-                invitation.style.opacity = "1";
-                window.scrollTo(0, 0);
-                
-                // Initialize scroll animations
-                initScrollAnimations();
-            }, 1000);
-        }
-
-        // 2. Scroll Animations (Intersection Observer)
-        function initScrollAnimations() {
-            const observerOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const observer = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("active");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll(".reveal").forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // 3. Generate Floating Emojis (Kids Theme)
-        function createBubbles() {
-            const container = document.getElementById('bubbles-container');
-            const emojis = ['🎈', '', '🧜‍♀️', '🫧', '', '', '🍰', '🎁'];
-            const bubbleCount = 25; 
-
-            for (let i = 0; i < bubbleCount; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
-                
-                // Random Emoji
-                bubble.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                
-                // Random size
-                const size = Math.random() * 2 + 1.5 + 'rem';
-                bubble.style.fontSize = size;
-                
-                // Random position
-                bubble.style.left = Math.random() * 100 + '%';
-                
-                // Random animation duration and delay
-                bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
-                bubble.style.animationDelay = Math.random() * 5 + 's';
-                
-                container.appendChild(bubble);
-            }
-        }
-
-        // Initialize on load
-        window.addEventListener('DOMContentLoaded', createBubbles);
-
-    </script>
-</body>
-</html>
+                    
