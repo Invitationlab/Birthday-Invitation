@@ -540,9 +540,9 @@
     <!-- Background Floating Emojis -->
     <div class="bubbles" id="bubbles-container"></div>
 
-    <!-- Audio Element (Hidden) - Happy Birthday Tune -->
+    <!-- Audio Element (Hidden) - Joyful Happy Birthday Tune -->
     <audio id="bg-music" loop>
-        <!-- Royalty Free Happy Birthday Ukulele -->
+        <!-- Royalty Free Joyful Happy Birthday Ukulele -->
         <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=happy-birthday-to-you-111998.mp3" type="audio/mpeg">
     </audio>
 
@@ -691,7 +691,7 @@
             const invitation = document.getElementById("invitation");
             const music = document.getElementById("bg-music");
 
-            // Play Happy Birthday Music
+            // Play Joyful Music
             if (music) {
                 music.volume = 0.6; 
                 music.play().catch(error => {
@@ -743,7 +743,7 @@
         // 3. Generate Floating Emojis (Kids Theme)
         function createBubbles() {
             const container = document.getElementById('bubbles-container');
-            const emojis = ['🎈', '🎉', '‍♀️', '🫧', '', '', '', ''];
+            const emojis = ['🎈', '', '🧜‍♀️', '🫧', '', '', '🍰', '🎁'];
             const bubbleCount = 25; 
 
             for (let i = 0; i < bubbleCount; i++) {
