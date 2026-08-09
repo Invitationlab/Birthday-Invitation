@@ -12,14 +12,15 @@
 
     <style>
         :root {
-            /* Pink & Ariel Theme Palette */
-            --bg-color: #fff0f5; /* Lavender Blush / Soft Pink */
-            --text-main: #4a3b42; /* Dark Mauve */
-            --text-light: #8c7b82; /* Muted Mauve */
-            --accent-pink: #d68ba6; /* Dusty Rose */
-            --accent-gold: #cba358; /* Soft Gold */
+            /* VIBRANT PINK & CORAL THEME */
+            --bg-color: #fff0f5; /* Lavender Blush */
+            --text-main: #5c3a42; /* Deep Mauve */
+            --text-light: #9e7b82; /* Muted Rose */
+            --accent-pink: #ff6b81; /* Vibrant Coral Pink */
+            --accent-soft: #ffb7c5; /* Cherry Blossom */
+            --sea-green: #20b2aa; /* Light Sea Green for contrast */
             --white: #ffffff;
-            --overlay: rgba(74, 59, 66, 0.4);
+            --overlay: rgba(92, 58, 66, 0.3);
         }
 
         * {
@@ -69,10 +70,11 @@
         .bubble {
             position: absolute;
             bottom: -100px;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(214, 139, 166, 0.2));
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 107, 129, 0.2));
             border-radius: 50%;
             opacity: 0.6;
             animation: rise 15s infinite ease-in;
+            box-shadow: 0 0 10px rgba(255, 107, 129, 0.1);
         }
 
         @keyframes rise {
@@ -95,7 +97,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: #000;
+            background: #2c1e22;
             transition: opacity 1s ease, visibility 1s;
         }
 
@@ -114,7 +116,7 @@
             z-index: 2;
             width: 100%;
             height: 100%;
-            background: var(--overlay);
+            background: linear-gradient(to bottom, rgba(255, 107, 129, 0.2), rgba(92, 58, 66, 0.6));
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -132,7 +134,8 @@
             letter-spacing: 6px;
             text-transform: uppercase;
             margin-bottom: 20px;
-            color: #ffdde1;
+            color: var(--accent-soft);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .intro h1 {
@@ -141,13 +144,13 @@
             line-height: 0.9;
             font-weight: 400;
             margin-bottom: 20px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
         .intro h1 span {
             display: block;
             font-style: italic;
-            color: #ffb7c5; /* Light Pink */
+            color: var(--accent-soft);
         }
 
         .intro-line {
@@ -160,7 +163,7 @@
         .enter-button {
             margin-top: 30px;
             padding: 18px 45px;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
             color: var(--white);
             border: 1px solid rgba(255,255,255,0.6);
             font-size: 10px;
@@ -172,11 +175,11 @@
         }
 
         .enter-button:hover {
-            background: var(--white);
-            color: var(--text-main);
-            border-color: var(--white);
+            background: var(--accent-pink);
+            color: var(--white);
+            border-color: var(--accent-pink);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.4);
         }
 
         /* ================================
@@ -206,7 +209,7 @@
             color: var(--accent-pink);
             margin-bottom: 25px;
             text-transform: uppercase;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .hero h2 {
@@ -236,10 +239,11 @@
             align-items: center;
             margin-top: 60px;
             padding: 25px 50px;
-            border: 1px solid rgba(214, 139, 166, 0.3);
+            border: 1px solid rgba(255, 107, 129, 0.3);
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(255, 107, 129, 0.1);
         }
 
         .date-number {
@@ -273,7 +277,7 @@
         .photo-section {
             padding: 120px 25px;
             text-align: center;
-            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4));
+            background: linear-gradient(to bottom, transparent, rgba(255, 183, 197, 0.2));
         }
 
         .photo-frame {
@@ -281,12 +285,11 @@
             margin: auto;
             padding: 15px;
             background: var(--white);
-            box-shadow: 0 30px 60px rgba(214, 139, 166, 0.15);
+            box-shadow: 0 30px 60px rgba(255, 107, 129, 0.15);
             border-radius: 4px;
             position: relative;
         }
         
-        /* Decorative corner accents */
         .photo-frame::before, .photo-frame::after {
             content: '';
             position: absolute;
@@ -303,7 +306,7 @@
             width: 100%;
             aspect-ratio: 4 / 5;
             object-fit: cover;
-            filter: sepia(0.1) contrast(1.05);
+            filter: sepia(0.1) contrast(1.05) saturate(1.1);
         }
 
         .photo-caption {
@@ -356,12 +359,14 @@
             padding: 60px 30px;
             background: var(--white);
             border-radius: 8px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+            box-shadow: 0 15px 40px rgba(255, 107, 129, 0.08);
             transition: transform 0.4s ease;
+            border-bottom: 3px solid transparent;
         }
 
         .detail-card:hover {
             transform: translateY(-10px);
+            border-bottom: 3px solid var(--accent-pink);
         }
 
         .icon {
@@ -371,11 +376,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--accent-pink);
+            border: 1px solid var(--accent-soft);
             border-radius: 50%;
             font-family: "Cormorant Garamond", serif;
             font-size: 24px;
             color: var(--accent-pink);
+            background: rgba(255, 183, 197, 0.1);
         }
 
         .detail-label {
@@ -407,7 +413,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(214, 139, 166, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(255, 107, 129, 0.05) 0%, transparent 70%);
         }
 
         .location h2 {
@@ -447,12 +453,13 @@
             position: relative;
             z-index: 2;
             text-transform: uppercase;
+            background: transparent;
         }
 
         .map-button:hover {
             background: var(--accent-pink);
             color: var(--white);
-            box-shadow: 0 10px 20px rgba(214, 139, 166, 0.3);
+            box-shadow: 0 10px 20px rgba(255, 107, 129, 0.3);
         }
 
         /* FINAL */
@@ -541,16 +548,24 @@
     <!-- Background Bubbles -->
     <div class="bubbles" id="bubbles-container"></div>
 
+    <!-- Audio Element (Hidden) -->
+    <!-- Replace src with your actual music file if you have one uploaded -->
+    <audio id="bg-music" loop>
+        <source src="assets/ariel-music.mp3" type="audio/mpeg">
+        <!-- Fallback to a royalty free ocean/ukulele track if local file missing -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=ukulele-fun-111578.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- ==========================================
          INTRO VIDEO SECTION
     =========================================== -->
     <section class="intro" id="intro">
         <!-- 
             IMPORTANT: 
-            Make sure your video file is named 'come-and-join-us.mp4' 
-            and is inside an 'assets' folder.
+            Ensure your video file is named 'come-and-join-us.mp4' 
+            and is inside the 'assets' folder.
         -->
-        <video class="intro-video" autoplay muted loop playsinline>
+        <video class="intro-video" autoplay muted loop playsinline poster="">
             <source src="assets/come-and-join-us.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -563,7 +578,7 @@
                     <span>Join Us</span>
                 </h1>
                 <div class="intro-line"></div>
-                <div class="intro-text" style="font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px;">
+                <div class="intro-text" style="font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; color: #fff;">
                     Victoria's Ariel Pool Party
                 </div>
                 <button class="enter-button" onclick="openInvitation()">
@@ -608,8 +623,8 @@
                 <div class="photo-frame">
                     <!-- 
                         IMPORTANT: 
-                        Make sure your image is named 'victoria.jpg' 
-                        and is inside an 'assets' folder.
+                        Ensure your image is named 'victoria.jpg' 
+                        and is inside the 'assets' folder.
                     -->
                     <img src="assets/victoria.jpg" alt="Victoria">
                 </div>
@@ -688,10 +703,19 @@
          JAVASCRIPT
     =========================================== -->
     <script>
-        // 1. Handle Intro Video Transition
+        // 1. Handle Intro Video Transition & Music
         function openInvitation() {
             const intro = document.getElementById("intro");
             const invitation = document.getElementById("invitation");
+            const music = document.getElementById("bg-music");
+
+            // Play Music (Browsers require interaction to play audio)
+            if (music) {
+                music.volume = 0.5; // Set volume to 50%
+                music.play().catch(error => {
+                    console.log("Auto-play prevented by browser policy:", error);
+                });
+            }
 
             // Fade out intro
             intro.style.opacity = "0";
@@ -737,7 +761,7 @@
         // 3. Generate Floating Bubbles
         function createBubbles() {
             const container = document.getElementById('bubbles-container');
-            const bubbleCount = 15;
+            const bubbleCount = 20; // More bubbles for pool effect
 
             for (let i = 0; i < bubbleCount; i++) {
                 const bubble = document.createElement('div');
